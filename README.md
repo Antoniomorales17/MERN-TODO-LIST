@@ -1,5 +1,8 @@
 # ToDo List App - MERN Stack
 
+![imagen](https://i.imgur.com/QBcPOuR.png)
+
+
 ![MERN](https://img.shields.io/badge/MERN-Fullstack-green)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-blue)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Styles-orange)
