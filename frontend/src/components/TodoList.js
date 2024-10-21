@@ -1,6 +1,4 @@
-// src/components/TodoList.js
 import React, { useState, useEffect } from "react";
-import './TodoList.css';
 
 const TodoList = () => {
   const [tasks, setTasks] = useState([]);
@@ -15,7 +13,7 @@ const TodoList = () => {
         throw new Error('Error al obtener tareas');
       }
       const data = await response.json();
-      console.log("Datos recibidos:", data); // Log para verificar la respuesta
+      console.log("Datos recibidos:", data);
       if (Array.isArray(data)) {
         setTasks(data);
       } else {
@@ -35,7 +33,7 @@ const TodoList = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (task) {
-      const method = editingTask ? "PUT" : "POST"; // PUT para editar, POST para crear
+      const method = editingTask ? "PUT" : "POST"; 
       const url = editingTask
         ? `http://localhost:5000/tasks/${editingTask._id}`
         : "http://localhost:5000/tasks";
@@ -50,11 +48,11 @@ const TodoList = () => {
         });
 
         if (response.ok) {
-          const data = await response.json(); // Obtener la respuesta
-          console.log("Tarea añadida o editada:", data); // Log para verificar la tarea añadida
-          fetchTasks(); // Volver a obtener la lista de tareas
-          setTask(""); // Limpiar input
-          setEditingTask(null); // Resetear el estado de edición
+          const data = await response.json();
+          console.log("Tarea añadida o editada:", data);
+          fetchTasks();
+          setTask("");
+          setEditingTask(null);
         } else {
           console.error("Error al añadir/editar tarea");
         }
@@ -71,7 +69,7 @@ const TodoList = () => {
         method: "DELETE",
       });
       if (response.ok) {
-        fetchTasks(); // Volver a obtener la lista de tareas
+        fetchTasks();
       } else {
         console.error("Error al eliminar tarea");
       }
@@ -83,27 +81,51 @@ const TodoList = () => {
   // Función para cargar una tarea en el input para editar
   const handleEdit = (task) => {
     setEditingTask(task);
-    setTask(task.title); // Cargar el título de la tarea en el input
+    setTask(task.title);
   };
 
   return (
-    <div>
-      <h1>Lista de Tareas</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-          placeholder="Nueva tarea"
-        />
-        <button type="submit">{editingTask ? "Actualizar" : "Agregar"}</button>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Lista de Tareas</h1>
+      <form onSubmit={handleSubmit} className="w-full max-w-lg">
+        <div className="flex items-center border-b border-b-2 border-blue-500 py-2">
+          <input
+            type="text"
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            placeholder="Nueva tarea"
+            className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="flex-shrink-0 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            {editingTask ? "Actualizar" : "Agregar"}
+          </button>
+        </div>
       </form>
-      <ul>
+
+      <ul className="mt-6 w-full max-w-lg bg-white shadow-md rounded-lg p-4">
         {tasks.map((task) => (
-          <li key={task._id}>
-            {task.title}
-            <button onClick={() => handleEdit(task)}>Editar</button>
-            <button onClick={() => handleDelete(task._id)}>Eliminar</button>
+          <li
+            key={task._id}
+            className="flex justify-between items-center py-2 border-b border-gray-200"
+          >
+            <span className="text-gray-800">{task.title}</span>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleEdit(task)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => handleDelete(task._id)}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded"
+              >
+                Eliminar
+              </button>
+            </div>
           </li>
         ))}
       </ul>
